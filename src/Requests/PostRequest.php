@@ -1,6 +1,6 @@
 <?php
 
-namespace GiapHiep\Admin\Requests;
+namespace GiapHiep\Post\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

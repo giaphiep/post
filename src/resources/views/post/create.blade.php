@@ -50,8 +50,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <input id="is_featured" class="text-left" type="checkbox" name="is_featured"> Featured post
-                                <button id="add-post" class="btn btn-sm green btn-circle" style="float: right;"> Save </button>
+                                <input id="is_featured" class="text-left" type="checkbox" name="is_featured"> Featured
+                                <button id="add-post" class="btn btn-sm green btn-circle" style="float: right;"> Publish </button>
                             </div>
                         </div>
                     </div>
