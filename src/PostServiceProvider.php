@@ -51,6 +51,8 @@ class PostServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton('post', function () {
+            return true;
+        });
     }
 }
