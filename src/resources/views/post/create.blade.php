@@ -39,7 +39,7 @@
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="fa fa-bookmark font-green" aria-hidden="true"></i>
-                                <span class="caption-subject font-green bold">Trạng thái</span>
+                                <span class="caption-subject font-green bold">Status</span>
                             </div>
                         </div>
                         <div class="portlet-body">
@@ -50,8 +50,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <input id="is_featured" class="text-left" type="checkbox" name="is_featured"> Bài biết nổi bật
-                                <button id="add-post" class="btn btn-sm green btn-circle" style="float: right;"> Lưu </button>
+                                <input id="is_featured" class="text-left" type="checkbox" name="is_featured"> Featured post
+                                <button id="add-post" class="btn btn-sm green btn-circle" style="float: right;"> Save </button>
                             </div>
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="fa fa-list font-green" aria-hidden="true"></i>
-                                <span class="caption-subject font-green bold">Danh mục</span>
+                                <span class="caption-subject font-green bold">Categories</span>
                             </div>
                         </div>
                         <div class="portlet-body">
