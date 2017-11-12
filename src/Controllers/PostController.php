@@ -28,7 +28,7 @@ class PostController extends Controller
       $this->middleware('admin.auth');
 
       //image-optimizer
-      $this->middleware('optimizeImages')->only(['store', 'update']);
+      // $this->middleware('optimizeImages')->only(['store', 'update']);
         
 
     }
@@ -70,43 +70,7 @@ class PostController extends Controller
 
         try {
 
-            $data['slug'] = str_slug($data['title']). '-' .time();
-
-            $post = Post::create($data);
-
-            // category
-            if (!empty($data['categories'])) {
-
-                foreach ($data['categories'] as $key => $category) {
-                    PostCategory::create([
-                        'post_id' => $post->id,
-                        'category_id' => $category
-                    ]);
-                }
-            }
-
-            //tags
-            if (!empty($data['tags'])) {
-
-                foreach ($data['tags'] as $key => $tag) {
-                   
-                   $flag = Tag::where('slug', str_slug($tag))->first();
-
-                   if (empty($flag)) {
-
-                        $flag = Tag::create([
-                            'name' => $tag,
-                            'slug' => str_slug($tag)
-                        ]);
-                   } 
-
-                   PostTag::create([
-                            'post_id' => $post->id,
-                            'tag_id' => $flag->id,
-                        ]);
-                }
-            }
-
+            $post = Post::storePost($data);
 
             DB::commit();
 
