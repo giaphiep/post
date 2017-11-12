@@ -18,7 +18,7 @@
     ],
     "require": {
         "php": "~7.0",
-        "giaphiep/admin": "^1.6",
+        "giaphiep/admin": "^1.7",
         "illuminate/support": "~5.1",
         "unisharp/laravel-filemanager": "~1.8"
     },
