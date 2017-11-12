@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace GiapHiep\Post\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
