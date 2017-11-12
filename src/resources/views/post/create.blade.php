@@ -66,7 +66,7 @@
                         </div>
                         <div class="portlet-body">
                         @if(count($categories) > 0) @foreach($categories as $category)
-                                @if($category->parent_id == -1)
+                                @if($category->parent_id == 0)
                                     <div class="checkbox">
                                         <input type="checkbox" class="categories" name="categories[]" value="{{$category->id}}">
                                             <label>
@@ -145,7 +145,7 @@
 
 <script src="{{asset('vendor/assets/js/tinymce/tinymce.min.js')}}"></script>
 <script>
-   var route_prefix = "{{ asset(config('lfm.prefix')) }}";
+   var route_prefix = "{{ asset(config('lfm.url_prefix')) }}";
    var path_absolute = "{{asset('')}}";
 </script>
 
@@ -254,7 +254,7 @@
 
                     if(!response.error) {
 
-                        toastr.success('Thêm thành công');
+                        toastr.success('Success');
 
                         setTimeout(function () {
                             window.location.href="{{route('posts.index')}}";
