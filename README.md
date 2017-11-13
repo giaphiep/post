@@ -18,7 +18,7 @@ $ composer require giaphiep/post
 ```
 
 ## Usage
-1. In configs/app.php file, add the following to the providers array
+1. In configs/app.php file, add the following to the providers array (optional in version 5.5)
 ``` php
 GiapHiep\Post\PostServiceProvider::class,
 Yajra\DataTables\DataTablesServiceProvider::class,
