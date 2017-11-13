@@ -45,7 +45,12 @@
     "extra": {
         "branch-alias": {
             "dev-master": "1.0-dev"
-        }
+        },
+        "laravel": {
+	      "providers": [
+	        "GiapHiep\\Post\\PostServiceProvider"
+	      ]
+	    }
     },
     "config": {
         "sort-packages": true

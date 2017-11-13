@@ -16,7 +16,7 @@ use GiapHiep\Post\Models\Tag;
 use Validator;
 use DB;
 use Log;
-use Datatables;
+use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use Exception;
 
@@ -262,29 +262,37 @@ class PostController extends Controller
 
     public function getList() {
 
+        $posts = Post::orderBy('id', 'desc');
 
-        $posts = Post::orderBy('id', 'desc')->get();
+        return Datatables::of($posts)	
+        	// ->addColumn('thumbnail', function ($post) {
+        	// 	return '<img width="100" height="100" src="'. $post->thumbnail . '">';
+        	// })
+        	->addColumn('author', function ($post) {
+        		return $post->user->name;
+        	})
+        	->addColumn('featured', function ($post) {
 
-        if (count($posts)) {
-            foreach ($posts as $key => $post) {
-                $post->thumbnail = '<img width="100" height="100" src="' . asset('') . $post->image . '">';
-                $post->author = $post->user->name;
-                // $post->category = Category::find($post->category_id)->name;
-            }
-        }
-
-        return Datatables::of($posts)
+        		if ($post->is_featured) {
+        			return 'Yes';
+        		}
+        		return 'No';
+        	})
+        	->addColumn('created', function ($post) {
+        		return $post->created_at->diffForHumans();
+        	})
+        	
             ->addColumn('action', function ($post) {
 
                 return '<a href="#" class="btn btn-outline btn-circle btn-xs blue">
-                            <i class="fa fa-eye" aria-hidden="true"></i> Chi tiết
+                            <i class="fa fa-eye" aria-hidden="true"></i> Detail
                         </a>
                         <a href="posts/'. $post->id .'/edit" class="btn btn-outline btn-circle green btn-xs purple">
-                            <i class="fa fa-edit"></i> Sửa 
+                            <i class="fa fa-edit"></i> Edit 
                         </a>
 
                           <a href="javascript:;" type="button" onclick="alertDel('. $post->id .')" class="btn btn-outline btn-circle dark btn-xs red">
-                            <i class="fa fa-trash-o"></i> Xóa 
+                            <i class="fa fa-trash-o"></i> Delete 
                           </a>';
             })
             ->make(true);

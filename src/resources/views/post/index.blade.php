@@ -33,10 +33,11 @@
     <table class="table table-striped table-bordered table-hover" id="posts-table">
         <thead>
             <tr>
-               <th class="stl-column color-column">Id</th>
-               <th class="stl-column color-column">Thumbnail</th>
+               <th class="stl-column color-column">#</th>
+               {{-- <th class="stl-column color-column">Thumbnail</th> --}}
                <th class="stl-column color-column">Title</th>
                <th class="stl-column color-column">Author</th>
+               <th class="stl-column color-column">Featured</th>
                {{-- <th class="stl-column color-column">Thể loại</th> --}}
                <th class="stl-column color-column">Created at</th>
                <th class="stl-column color-column">Action</th>
@@ -68,11 +69,12 @@ $(function() {
         ajax: '{!! route('posts.list') !!}',
         columns: [
             {data: 'id', name: 'id'},
-            {data: 'thumbnail', name: 'thumbnail', orderable: false, searchable: false},
+            // {data: 'thumbnail', name: 'thumbnail', orderable: false, searchable: false},
             {data: 'title', name: 'title'},
             {data: 'author', name: 'author'},
+            {data: 'featured', name: 'featured'},
             // {data: 'category', name: 'category'},
-            {data: 'created_at', name: 'created_at'},
+            {data: 'created', name: 'created'},
             {data: 'action', name: 'action', orderable: false, searchable: false}
         ]
     });
@@ -86,7 +88,7 @@ $(function() {
     // delete theory
     function alertDel ( id ) {
 
-      var path = "{{URL::asset('')}}posts/" + id;
+      var path = "{{URL::asset('')}}admin/posts/" + id;
 
         swal({
             title: "Are you sure ?",
