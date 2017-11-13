@@ -38,6 +38,7 @@
                <th class="stl-column color-column">Title</th>
                <th class="stl-column color-column">Author</th>
                <th class="stl-column color-column">Featured</th>
+               <th class="stl-column color-column">Status</th>
                {{-- <th class="stl-column color-column">Thể loại</th> --}}
                <th class="stl-column color-column">Created at</th>
                <th class="stl-column color-column">Action</th>
@@ -73,6 +74,7 @@ $(function() {
             {data: 'title', name: 'title'},
             {data: 'author', name: 'author'},
             {data: 'featured', name: 'featured'},
+            {data: 'status', name: 'status'},
             // {data: 'category', name: 'category'},
             {data: 'created', name: 'created'},
             {data: 'action', name: 'action', orderable: false, searchable: false}

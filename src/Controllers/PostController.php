@@ -218,6 +218,13 @@ class PostController extends Controller
         		}
         		return 'No';
         	})
+        	->addColumn('status', function ($post) {
+
+        		if ($post->status) {
+        			return 'Publish';
+        		}
+        		return 'Draft';
+        	})
         	->addColumn('created', function ($post) {
         		return $post->created_at->diffForHumans();
         	})
