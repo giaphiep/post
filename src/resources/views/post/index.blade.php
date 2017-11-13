@@ -1,0 +1,204 @@
+@extends('vendor.giaphiep.admin.layout')
+
+@section('head')
+<link rel="stylesheet" type="text/css" href="{{asset('vendor/assets/css/prism.css')}}">
+<link rel="stylesheet" href="{{asset('vendor/assets/css/datatables.bootstrap.css')}}">
+
+<style>
+
+  span{
+    line-height: 2 !important;
+  }
+  img {
+    display: block !important;
+    max-width: 100%;
+  }
+</style>
+@endsection
+
+@section('content')
+
+<div class="portlet light bordered">
+<div class="portlet-title">
+    <div class="caption font-green uppercase">
+        <i class="fa fa-file-text" aria-hidden="true"></i> <a class="font-green uppercase" href="{{route('posts.index')}}"> List Post </a></div>
+   
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-4 col-md-6 col-lg-5">
+        <a href="{{route('posts.create')}}"><button class="btn green btn-circle"><i class="fa fa-plus"></i> Add new</button></a>
+    </div>
+</div>
+<div class="portlet-body">
+    <table class="table table-striped table-bordered table-hover" id="posts-table">
+        <thead>
+            <tr>
+               <th class="stl-column color-column">Id</th>
+               <th class="stl-column color-column">Thumbnail</th>
+               <th class="stl-column color-column">Title</th>
+               <th class="stl-column color-column">Author</th>
+               {{-- <th class="stl-column color-column">Thể loại</th> --}}
+               <th class="stl-column color-column">Created at</th>
+               <th class="stl-column color-column">Action</th>
+            </tr>
+        </thead>
+    </table>
+
+    
+</div>
+</div>
+
+
+@endsection
+
+@section('footer')
+
+
+<script src="{{url('js/prism.js')}}"></script>
+<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="{{url('js/datatables.bootstrap.js')}}" type="text/javascript"></script>
+
+<script>
+$(function() {
+    $('#posts-table').DataTable({
+        processing: false,
+        serverSide: true,
+        order: [], 
+        pageLength: 25,
+        ajax: '{!! route('posts.list') !!}',
+        columns: [
+            {data: 'id', name: 'id'},
+            {data: 'thumbnail', name: 'thumbnail', orderable: false, searchable: false},
+            {data: 'title', name: 'title'},
+            {data: 'author', name: 'author'},
+            // {data: 'category', name: 'category'},
+            {data: 'created_at', name: 'created_at'},
+            {data: 'action', name: 'action', orderable: false, searchable: false}
+        ]
+    });
+});
+</script>
+
+
+<script>
+
+
+    // delete theory
+    function alertDel ( id ) {
+
+      var path = "{{URL::asset('')}}posts/" + id;
+
+        swal({
+            title: "Bạn có chắc muốn xóa?",
+            // text: "Bạn sẽ không thể khôi phục lại bản ghi này!!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            cancelButtonText: "Không",
+            confirmButtonText: "Có",
+            
+            // closeOnConfirm: false,
+        },
+        function(isConfirm) {
+            if (isConfirm) {  
+
+            $.ajax({
+                  type: "DELETE",
+                  url: path,
+                  success: function(res)
+                  {
+                    if(!res.error) {
+                        toastr.success('Xóa thành công!');
+                        setTimeout(function () {
+                            location.reload();
+                        }, 800)                   
+                    }
+                  },
+                  error: function (xhr, ajaxOptions, thrownError) {
+                    toastr.error(thrownError);
+                  }
+            });
+
+                
+            }
+        });
+    }
+
+
+    //check submit
+    function check_submit() {
+
+        if ($('#name').val() != '' && tinymce.get('content-theory').getContent() != '') {
+                $('#add').removeAttr('disabled');
+        } else {
+            $('#add').prop('disabled', true);
+        }
+    }
+
+    // add theory
+    function addTheory() {
+
+        $('#createTheoryModal').modal('show');
+         $('#name').val('');
+         tinymce.get('content-theory').setContent('');
+        $('#add').prop('disabled', true);
+
+
+        $('#name').keyup(function () {
+
+            if ($('#name').val() != '' && tinymce.get('content-theory').getContent() != '') {
+                    $('#add').removeAttr('disabled');
+            } else {
+                $('#add').prop('disabled', true);
+            }
+        });
+
+    }
+
+    //check submit
+    function check_submit_edit() {
+
+        if ($('#edit-name').val() != '' && tinymce.get('edit-content').getContent() != '') {
+                $('#update').removeAttr('disabled');
+        } else {
+            $('#update').prop('disabled', true);
+        }
+    }
+
+    // edit theory
+    function editTheory(id) {
+        
+        $('#editTheoryModal').modal('show');
+
+        $('#edit-name').keyup(function () {
+
+            if ($('#edit-name').val() != '' && tinymce.get('edit-content').getContent() != '') {
+                    $('#update').removeAttr('disabled');
+            } else {
+                $('#update').prop('disabled', true);
+            }
+        });
+
+        
+
+        $.ajax({
+              type: "GET",
+              url: "{{URL::asset('coursewares/theories')}}/" + id,
+              success: function(res)
+              {
+                $('#edit-name').focus();
+                $('#edit-name').val(res.data.name);
+                
+                tinymce.get('edit-content').setContent(res.data.content);
+
+                $('#edit-id').val(res.data.id);
+              }
+        });
+
+    }
+
+    
+
+ </script>
+
+@endsection

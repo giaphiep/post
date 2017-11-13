@@ -3,6 +3,7 @@
 namespace GiapHiep\Post;
 
 use Illuminate\Support\ServiceProvider;
+use Config;
 
 class PostServiceProvider extends ServiceProvider
 {
@@ -20,12 +21,7 @@ class PostServiceProvider extends ServiceProvider
     	
     	$this->publishes([
 	        __DIR__.'/database/migrations/' => database_path('migrations')
-	    ], 'migrations');
-
-
-    	// $this->publishes([
-	    //     __DIR__.'/database/seeds' => database_path('seeds')
-	    // ], 'seeds');
+	    ], 'post_migrations');
 
     	//view
     	
@@ -33,15 +29,11 @@ class PostServiceProvider extends ServiceProvider
 
 	    $this->publishes([
 	        __DIR__.'/resources/views' => resource_path('views/vendor/'. $package_name),
-	    ]);
-
-    	//assets
-     //    $this->publishes([
-     //    	__DIR__.'/public/assets' => public_path('vendor/assets'),
-    	// ], 'public');
+	    ], 'post_views');
 
         
         $this->app->register(RouteServiceProvider::class);
+
     }
 
     /**
