@@ -20,8 +20,14 @@ $ composer require giaphiep/post
 ## Usage
 1. In configs/app.php file, add the following to the providers array
 ``` php
-GiapHiep\Post\AdminServiceProvider::class,
+GiapHiep\Post\PostServiceProvider::class,
+Yajra\DataTables\DataTablesServiceProvider::class,
 ```
+and in aliases array
+``` php
+'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+```
+
 2. Run commands to publish the package’s config and assets and database
 ``` bash
 $ php artisan vendor:publish

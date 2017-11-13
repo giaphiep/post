@@ -54,9 +54,9 @@
 @section('footer')
 
 
-<script src="{{url('js/prism.js')}}"></script>
+<script src="{{asset('vendor/assets/js/prism.js')}}"></script>
 <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="{{url('js/datatables.bootstrap.js')}}" type="text/javascript"></script>
+<script src="{{asset('vendor/assets/js/datatables.bootstrap.js')}}" type="text/javascript"></script>
 
 <script>
 $(function() {
@@ -89,114 +89,37 @@ $(function() {
       var path = "{{URL::asset('')}}posts/" + id;
 
         swal({
-            title: "Bạn có chắc muốn xóa?",
-            // text: "Bạn sẽ không thể khôi phục lại bản ghi này!!",
+            title: "Are you sure ?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
-            cancelButtonText: "Không",
-            confirmButtonText: "Có",
-            
-            // closeOnConfirm: false,
+            cancelButtonText: "No",
+            confirmButtonText: "Yes",
         },
         function(isConfirm) {
             if (isConfirm) {  
 
-            $.ajax({
-                  type: "DELETE",
-                  url: path,
-                  success: function(res)
-                  {
-                    if(!res.error) {
-                        toastr.success('Xóa thành công!');
-                        setTimeout(function () {
-                            location.reload();
-                        }, 800)                   
-                    }
-                  },
-                  error: function (xhr, ajaxOptions, thrownError) {
-                    toastr.error(thrownError);
-                  }
-            });
+	            $.ajax({
+	                  type: "DELETE",
+	                  url: path,
+	                  success: function(res)
+	                  {
+	                    if(!res.error) {
+	                        toastr.success('Success');
 
+	                        setTimeout(function () {
+	                            location.reload();
+	                        }, 800)                   
+	                    }
+	                  },
+	                  error: function (xhr, ajaxOptions, thrownError) {
+	                    toastr.error(thrownError);
+	                  }
+	            });
                 
             }
         });
     }
-
-
-    //check submit
-    function check_submit() {
-
-        if ($('#name').val() != '' && tinymce.get('content-theory').getContent() != '') {
-                $('#add').removeAttr('disabled');
-        } else {
-            $('#add').prop('disabled', true);
-        }
-    }
-
-    // add theory
-    function addTheory() {
-
-        $('#createTheoryModal').modal('show');
-         $('#name').val('');
-         tinymce.get('content-theory').setContent('');
-        $('#add').prop('disabled', true);
-
-
-        $('#name').keyup(function () {
-
-            if ($('#name').val() != '' && tinymce.get('content-theory').getContent() != '') {
-                    $('#add').removeAttr('disabled');
-            } else {
-                $('#add').prop('disabled', true);
-            }
-        });
-
-    }
-
-    //check submit
-    function check_submit_edit() {
-
-        if ($('#edit-name').val() != '' && tinymce.get('edit-content').getContent() != '') {
-                $('#update').removeAttr('disabled');
-        } else {
-            $('#update').prop('disabled', true);
-        }
-    }
-
-    // edit theory
-    function editTheory(id) {
-        
-        $('#editTheoryModal').modal('show');
-
-        $('#edit-name').keyup(function () {
-
-            if ($('#edit-name').val() != '' && tinymce.get('edit-content').getContent() != '') {
-                    $('#update').removeAttr('disabled');
-            } else {
-                $('#update').prop('disabled', true);
-            }
-        });
-
-        
-
-        $.ajax({
-              type: "GET",
-              url: "{{URL::asset('coursewares/theories')}}/" + id,
-              success: function(res)
-              {
-                $('#edit-name').focus();
-                $('#edit-name').val(res.data.name);
-                
-                tinymce.get('edit-content').setContent(res.data.content);
-
-                $('#edit-id').val(res.data.id);
-              }
-        });
-
-    }
-
     
 
  </script>
