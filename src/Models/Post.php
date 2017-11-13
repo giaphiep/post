@@ -66,4 +66,71 @@ class Post extends Model
 
         return $post;
     }
+
+    /**
+     * update post
+     * 
+     * @param  [type] $post [description]
+     * @param  [type] $data [description]
+     * @return [type]       [description]
+     */
+    public static function updatePost($post, $data) {
+
+    	$post->update($data);
+
+        //categories
+        if (!empty($data['categories'])) {
+
+                //delete all first
+                PostCategory::where('post_id', $id)->delete();
+
+                foreach ($data['categories'] as $key => $category) {
+                  PostCategory::create([
+                            'post_id' => $id,
+                            'category_id' =>$category
+                        ]);
+                }
+        } else {
+          //delete all
+          PostCategory::where('post_id', $id)->delete();
+        }
+
+         //tags 
+        if (!empty($data['tags'])) {
+
+            //delete all first
+            PostTag::where('post_id', $id)->delete();
+
+            foreach ($data['tags'] as $key => $value) {
+
+              $flag1 = Tag::where('slug', str_slug($value))->first();
+
+              if ($flag1 == null) {
+                  //them vao bang tag
+                  $t = new Tag;
+                  $t->name = $value;
+                  $t->slug = str_slug($value);
+                  
+                  if ($t->save()) {
+                      PostTag::create([
+                          'post_id' => $id,
+                          'tag_id' =>$t->id
+                      ]);
+                  }
+              } else {
+                  PostTag::create([
+                          'post_id' => $id,
+                          'tag_id' =>$flag1->id
+                      ]);
+              }
+            }
+
+        } else {
+          PostTag::where('post_id', $id)->delete();
+        }
+
+        return $post;
+
+
+    }
 }

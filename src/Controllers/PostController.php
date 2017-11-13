@@ -114,7 +114,7 @@ class PostController extends Controller
         $categories = Category::get();
         $post = Post::find($id);
 
-        return view('posts.edit', ['categories' => $categories, 'post' => $post]);
+        return view('giaphiep::post.edit', ['categories' => $categories, 'post' => $post]);
     }
 
     /**
@@ -141,77 +141,17 @@ class PostController extends Controller
 
 	        }
 
-            if (empty($data['image'])) {
-                unset($data['image']);
-            }
-            if (empty($data['image_icon'])) {
-                unset($data['image_icon']);
+            if (empty($data['thumbnail'])) {
+                unset($data['thumbnail']);
             }
 
-
-	        
-
-
-
-            $post->update($data);
-
-            //categories
-            if (!empty($data['categories'])) {
-
-                    //delete all first
-                    PostCategory::where('post_id', $id)->delete();
-
-                    foreach ($data['categories'] as $key => $category) {
-                      PostCategory::create([
-                                'post_id' => $id,
-                                'category_id' =>$category
-                            ]);
-                    }
-            } else {
-              //delete all
-              PostCategory::where('post_id', $id)->delete();
-            }
-
-             //tags 
-            if (!empty($data['tags'])) {
-
-                //delete all first
-                PostTag::where('post_id', $id)->delete();
-
-                foreach ($data['tags'] as $key => $value) {
-
-                  $flag1 = Tag::where('slug', str_slug($value))->first();
-
-                  if ($flag1 == null) {
-                      //them vao bang tag
-                      $t = new Tag;
-                      $t->name = $value;
-                      $t->slug = str_slug($value);
-                      
-                      if ($t->save()) {
-                          PostTag::create([
-                              'post_id' => $id,
-                              'tag_id' =>$t->id
-                          ]);
-                      }
-                  } else {
-                      PostTag::create([
-                              'post_id' => $id,
-                              'tag_id' =>$flag1->id
-                          ]);
-                  }
-                }
-
-            } else {
-              PostTag::where('post_id', $id)->delete();
-            }
-            
+            $result = Post::updatePost($post, $data);
 
             DB::commit();
 
             return response()->json([
                 'error' => false,
-                'data' => $post
+                'data' => $result
             ]);
 
         } catch(Exception $e) {
@@ -281,7 +221,7 @@ class PostController extends Controller
         	->addColumn('created', function ($post) {
         		return $post->created_at->diffForHumans();
         	})
-        	
+
             ->addColumn('action', function ($post) {
 
                 return '<a href="#" class="btn btn-outline btn-circle btn-xs blue">
