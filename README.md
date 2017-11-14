@@ -22,6 +22,7 @@ $ composer require giaphiep/post
 ``` php
 GiapHiep\Post\PostServiceProvider::class,
 Yajra\DataTables\DataTablesServiceProvider::class,
+
 ```
 and in aliases array
 ``` php
@@ -39,6 +40,18 @@ $ php artisan migrate
  php artisan config:clear
 ```
 4. Ensure that the files & images directories (in config/lfm.php) are writable by your web server (run commands like chown or chmod).
+
+5. In app/Http/Kernel.php, Add the following to the routeMiddleware array
+
+``` php
+ 'optimizeImages' => \Spatie\LaravelImageOptimizer\Middlewares\OptimizeImages::class,
+```
+
+6. In config/lfm.php, add the following to the middlewares array
+
+``` php
+'middlewares' => [ ..., 'optimizeImages'],
+```
 
 
 
