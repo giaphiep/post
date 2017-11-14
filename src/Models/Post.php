@@ -78,28 +78,30 @@ class Post extends Model
 
     	$post->update($data);
 
+
         //categories
         if (!empty($data['categories'])) {
 
                 //delete all first
-                PostCategory::where('post_id', $id)->delete();
+                PostCategory::where('post_id', $post->id)->delete();
 
                 foreach ($data['categories'] as $key => $category) {
                   PostCategory::create([
-                            'post_id' => $id,
+                            'post_id' => $post->id,
                             'category_id' =>$category
                         ]);
                 }
         } else {
+
           //delete all
-          PostCategory::where('post_id', $id)->delete();
+          PostCategory::where('post_id', $post->id)->delete();
         }
 
          //tags 
         if (!empty($data['tags'])) {
 
             //delete all first
-            PostTag::where('post_id', $id)->delete();
+            PostTag::where('post_id', $post->id)->delete();
 
             foreach ($data['tags'] as $key => $value) {
 
@@ -113,20 +115,20 @@ class Post extends Model
                   
                   if ($t->save()) {
                       PostTag::create([
-                          'post_id' => $id,
+                          'post_id' => $post->id,
                           'tag_id' =>$t->id
                       ]);
                   }
               } else {
                   PostTag::create([
-                          'post_id' => $id,
+                          'post_id' => $post->id,
                           'tag_id' =>$flag1->id
                       ]);
               }
             }
 
         } else {
-          PostTag::where('post_id', $id)->delete();
+          PostTag::where('post_id', $post->id)->delete();
         }
 
         return $post;
