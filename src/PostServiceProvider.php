@@ -4,7 +4,7 @@ namespace GiapHiep\Post;
 
 use Illuminate\Support\ServiceProvider;
 use Config;
-use GiapHiep\Admin\Commands\PostInstall;
+use GiapHiep\Post\Commands\PostInstall;
 
 class PostServiceProvider extends ServiceProvider
 {
