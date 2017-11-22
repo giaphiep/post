@@ -4,6 +4,7 @@ namespace GiapHiep\Post;
 
 use Illuminate\Support\ServiceProvider;
 use Config;
+use GiapHiep\Admin\Commands\PostInstall;
 
 class PostServiceProvider extends ServiceProvider
 {
@@ -31,9 +32,21 @@ class PostServiceProvider extends ServiceProvider
 	        __DIR__.'/resources/views' => resource_path('views/vendor/'. $package_name),
 	    ], 'post_views');
 
+
+	    //config
+	    $this->publishes([
+            __DIR__ . '/config/lfm.php' => base_path('config/lfm.php'),
+        ], 'lfm_post_config');
         
         $this->app->register(RouteServiceProvider::class);
 
+        //commands
+        if ($this->app->runningInConsole()) {
+	        $this->commands([
+	            PostInstall::class,
+	        ]);
+    	}
+        
     }
 
     /**
@@ -43,8 +56,7 @@ class PostServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('post', function () {
-            return true;
-        });
+        //middleware
+        $this->app['router']->aliasMiddleware('optimizeImages', \Spatie\LaravelImageOptimizer\Middlewares\OptimizeImages::class);
     }
 }

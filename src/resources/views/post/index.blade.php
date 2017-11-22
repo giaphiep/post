@@ -62,7 +62,7 @@
 
 <script>
 $(function() {
-    $('#posts-table').DataTable({
+    var table = $('#posts-table').DataTable({
         processing: false,
         serverSide: true,
         order: [], 
@@ -80,19 +80,12 @@ $(function() {
             {data: 'action', name: 'action', orderable: false, searchable: false}
         ]
     });
-});
-</script>
 
+    $(document).on('click', '.btn-delete', function () {
 
-<script>
+    	var path = "{{URL::asset('')}}admin/posts/" + $(this).data('id');
 
-
-    // delete theory
-    function alertDel ( id ) {
-
-      var path = "{{URL::asset('')}}admin/posts/" + id;
-
-        swal({
+		swal({
             title: "Are you sure ?",
             type: "warning",
             showCancelButton: true,
@@ -111,9 +104,7 @@ $(function() {
 	                    if(!res.error) {
 	                        toastr.success('Success');
 
-	                        setTimeout(function () {
-	                            location.reload();
-	                        }, 800)                   
+	                        table.ajax.reload();                   
 	                    }
 	                  },
 	                  error: function (xhr, ajaxOptions, thrownError) {
@@ -123,9 +114,10 @@ $(function() {
                 
             }
         });
-    }
-    
 
- </script>
+    });
+
+});
+</script>
 
 @endsection

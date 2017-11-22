@@ -238,7 +238,7 @@ class PostController extends Controller
                             <i class="fa fa-edit"></i> Edit 
                         </a>
 
-                          <a href="javascript:;" type="button" onclick="alertDel('. $post->id .')" class="btn btn-outline btn-circle dark btn-xs red">
+                          <a href="javascript:;" type="button" data-id="'. $post->id .'"  class="btn btn-outline btn-circle dark btn-xs red btn-delete">
                             <i class="fa fa-trash-o"></i> Delete 
                           </a>';
             })
